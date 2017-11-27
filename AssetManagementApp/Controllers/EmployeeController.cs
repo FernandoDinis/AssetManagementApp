@@ -4,25 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AssetManagementApp.Entities;
+using System.Data;
+using AssetManagementApp.Repository;
 
 namespace AssetManagementApp.Controllers
 {
     public class EmployeeController : Controller
     {
-        private AssetManagementDEVContext db = new AssetManagementDEVContext();
+        IEmployeeRepository repo = new EmployeeRepository();
         
         public IActionResult Index()
         {
-            var employees = db.Employee.ToList();
-            return View(employees);
+            return View(repo.GetAllEmployees());
         }
 
-        public IActionResult GetEmployees()
-        {
-            var employee = db.Employee.ToList();
-
-            return Json(employee);
-        }
         [HttpGet]
         public IActionResult Create()
         {
@@ -34,19 +29,20 @@ namespace AssetManagementApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                Employee employee = new Employee();
-                employee.Name = newEmployee.Name;
-                employee.EmployeeNumber = newEmployee.EmployeeNumber;
-                db.Employee.Add(employee);
-                db.SaveChanges();
+                //Employee employee = new Employee();
+                //employee.Name = newEmployee.Name;
+                //employee.EmployeeNumber = newEmployee.EmployeeNumber;
+
+                newEmployee = new EmployeeRepository().CreateEmployee(newEmployee);
+
                 return RedirectToAction("Index");                
             }
             return View();
         }
 
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int id)
         {
-            var employeeToEdit = db.Employee.Where(x => x.Id == id).SingleOrDefault();
+            var employeeToEdit = new EmployeeRepository().GetEmployee(id);
             return View(employeeToEdit);
         }
 
@@ -55,16 +51,50 @@ namespace AssetManagementApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Employee employee = new Employee();
-                //employee.Id = emp.Id;
-                //employee.Name = emp.Name;
-                //employee.EmployeeNumber = emp.EmployeeNumber;
-                //db.Employee.Add(employee);
-                db.Entry(emp).State = Microsoft.EntityFrameworkCore.EntityState.Modified; 
-                db.SaveChanges();
+                emp = repo.EditEmployee(emp);
                 return RedirectToAction("Index");
             }
             return View();
+        }
+
+        public IActionResult Details(int id)
+        {
+            Employee employee = new EmployeeRepository().GetEmployee(id);
+            if(employee == null)
+            {
+                return RedirectToAction("Error");
+            }
+            return View(employee);
+        }
+
+        public IActionResult Delete(int id, bool? saveChangesError = false)
+        {
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.ErrorMessage = "Delete failed. Try again, and if the problem persists see your system administrator.";
+            }
+            Employee employee = new EmployeeRepository().GetEmployee(id);
+            if (employee == null)
+            {
+                return RedirectToAction("Error");
+            }
+            return View(employee);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                repo.DeleteEmployee(id);
+            }
+            catch (DataException/* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                return RedirectToAction("Delete", new { id = id, saveChangesError = true });
+            }
+            return RedirectToAction("Index");
         }
     }
 }
