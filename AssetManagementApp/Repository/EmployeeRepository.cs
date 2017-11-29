@@ -11,6 +11,11 @@ namespace AssetManagementApp.Repository
     {
         private AssetManagementDEVContext db = new AssetManagementDEVContext();
 
+        public EmployeeRepository(AssetManagementDEVContext dbContext)
+        {
+            db = dbContext;
+        }
+
         public Employee CreateEmployee (Employee newEmployee)
         {
             db.Employee.Add(newEmployee);

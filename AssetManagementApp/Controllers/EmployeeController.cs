@@ -11,7 +11,12 @@ namespace AssetManagementApp.Controllers
 {
     public class EmployeeController : Controller
     {
-        IEmployeeRepository repo = new EmployeeRepository();
+        IEmployeeRepository repo;
+
+        public EmployeeController(IEmployeeRepository employeeRepository)
+        {
+            repo = employeeRepository;
+        }
         
         public IActionResult Index()
         {
@@ -33,7 +38,7 @@ namespace AssetManagementApp.Controllers
                 //employee.Name = newEmployee.Name;
                 //employee.EmployeeNumber = newEmployee.EmployeeNumber;
 
-                newEmployee = new EmployeeRepository().CreateEmployee(newEmployee);
+                newEmployee = repo.CreateEmployee(newEmployee);
 
                 return RedirectToAction("Index");                
             }
@@ -42,7 +47,7 @@ namespace AssetManagementApp.Controllers
 
         public IActionResult Edit(int id)
         {
-            var employeeToEdit = new EmployeeRepository().GetEmployee(id);
+            var employeeToEdit = repo.GetEmployee(id);
             return View(employeeToEdit);
         }
 
@@ -59,7 +64,7 @@ namespace AssetManagementApp.Controllers
 
         public IActionResult Details(int id)
         {
-            Employee employee = new EmployeeRepository().GetEmployee(id);
+            Employee employee = repo.GetEmployee(id);
             if(employee == null)
             {
                 return RedirectToAction("Error");
@@ -73,7 +78,7 @@ namespace AssetManagementApp.Controllers
             {
                 ViewBag.ErrorMessage = "Delete failed. Try again, and if the problem persists see your system administrator.";
             }
-            Employee employee = new EmployeeRepository().GetEmployee(id);
+            Employee employee = repo.GetEmployee(id);
             if (employee == null)
             {
                 return RedirectToAction("Error");

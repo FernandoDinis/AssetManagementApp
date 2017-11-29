@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using AssetManagementApp.Data;
 using AssetManagementApp.Models;
 using AssetManagementApp.Services;
+using AssetManagementApp.Repository;
+using AssetManagementApp.Entities;
 
 namespace AssetManagementApp
 {
@@ -35,6 +37,13 @@ namespace AssetManagementApp
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+
+            //Add by Fernando Dinis
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //
+            services.AddDbContext<AssetManagementDEVContext>(); //best way -----or this after this one 
+            //services.AddSingleton<AssetManagementDEVContext>();
+            //
 
             services.AddMvc();
         }
