@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace AssetManagementApp.Repository
 {
 
-    public class EmployeeRepository:IEmployeeRepository
+    public class EmployeeRepository : IEmployeeRepository
     {
-        private AssetManagementDEVContext db = new AssetManagementDEVContext();
+        private AssetManagementDEVContext db;
 
         public EmployeeRepository(AssetManagementDEVContext dbContext)
         {
