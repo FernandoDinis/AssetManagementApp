@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using AssetManagementApp.Entities;
 using System.Data;
 using AssetManagementApp.Repository;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Runtime.Serialization.Json;
 
 namespace AssetManagementApp.Controllers
 {
@@ -20,7 +23,16 @@ namespace AssetManagementApp.Controllers
         
         public IActionResult Index()
         {
-            return View(repo.GetAllEmployees());
+            return View();
+        }
+
+        public JsonResult GetAllEmployeesInDB()
+        {
+            List<Employee> employees = repo.GetAllEmployees().ToList();
+            //var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+            //return JsonConvert.SerializeObject(employees,Formatting.None,settings);
+            //var aux = Json(employees, settings);
+            return Json(employees);
         }
 
         [HttpGet]
@@ -34,10 +46,6 @@ namespace AssetManagementApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Employee employee = new Employee();
-                //employee.Name = newEmployee.Name;
-                //employee.EmployeeNumber = newEmployee.EmployeeNumber;
-
                 newEmployee = repo.CreateEmployee(newEmployee);
 
                 return RedirectToAction("Index");                
