@@ -4,31 +4,30 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AssetManagementApp.Entities;
-using System.Data;
 using AssetManagementApp.Repository;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System.Runtime.Serialization.Json;
+using System.Data;
+
+// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AssetManagementApp.Controllers
 {
-    public class EmployeeController : Controller
+    public class AssetController : Controller
     {
-        IEmployeeRepository repo;
+        //private AssetManagementDEVContext db = new AssetManagementDEVContext();
+        IAssetRepository repo;
 
-        public EmployeeController(IEmployeeRepository employeeRepository)
+        public AssetController(IAssetRepository assetRepository)
         {
-            repo = employeeRepository;
+            repo = assetRepository;
         }
-        
+        // GET: /<controller>/
         public IActionResult Index()
         {
             return View();
         }
-
-        public JsonResult GetAllEmployeesInDB()
+        public JsonResult GetAllAssetsInDB()
         {
-            List<Employee> employees = repo.GetAllEmployees().ToList(); 
+            List<Asset> employees = repo.GetAllAsset().ToList();
             return Json(employees);
         }
 
@@ -39,29 +38,29 @@ namespace AssetManagementApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Employee newEmployee)
+        public IActionResult Create(Asset newAsset)
         {
             if (ModelState.IsValid)
             {
-                newEmployee = repo.CreateEmployee(newEmployee);
+                newAsset = repo.CreateAsset(newAsset);
 
-                return RedirectToAction("Index");                
+                return RedirectToAction("Index");
             }
             return View();
         }
 
         public IActionResult Edit(int id)
         {
-            var employeeToEdit = repo.GetEmployee(id);
-            return View(employeeToEdit);
+            var assetToEdit = repo.GetAsset(id);
+            return View(assetToEdit);
         }
 
         [HttpPost]
-        public IActionResult Edit(Employee emp)
+        public IActionResult Edit(Asset ass)
         {
             if (ModelState.IsValid)
             {
-                emp = repo.EditEmployee(emp);
+                ass = repo.EditAsset(ass);
                 return RedirectToAction("Index");
             }
             return View();
@@ -69,12 +68,12 @@ namespace AssetManagementApp.Controllers
 
         public IActionResult Details(int id)
         {
-            Employee employee = repo.GetEmployee(id);
-            if(employee == null)
+            Asset asset = repo.GetAsset(id);
+            if (asset == null)
             {
                 return RedirectToAction("Error");
             }
-            return View(employee);
+            return View(asset);
         }
 
         public IActionResult Delete(int id, bool? saveChangesError = false)
@@ -83,12 +82,12 @@ namespace AssetManagementApp.Controllers
             {
                 ViewBag.ErrorMessage = "Delete failed. Try again, and if the problem persists see your system administrator.";
             }
-            Employee employee = repo.GetEmployee(id);
-            if (employee == null)
+            Asset asset = repo.GetAsset(id);
+            if (asset == null)
             {
                 return RedirectToAction("Error");
             }
-            return View(employee);
+            return View(asset);
         }
 
         [HttpPost]
@@ -97,7 +96,7 @@ namespace AssetManagementApp.Controllers
         {
             try
             {
-                repo.DeleteEmployee(id);
+                repo.DeleteAsset(id);
             }
             catch (DataException/* dex */)
             {

@@ -1,14 +1,14 @@
-﻿@model IEnumerable<AssetManagementApp.Entities.Employee>
+﻿@model IEnumerable<AssetManagementApp.Entities.Asset>
 
 @{
     ViewData["Title"] = "Index";
 }
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-<div ng-app="employeeTable" ng-controller="employeeList">
+<div ng-app="assetTable" ng-controller="assetList">
     <br />
     <p>
-        <a class="btn btn-default btn-sm" href="./Employee/Create">Create New</a>
+        <a class="btn btn-default btn-sm" href="./Asset/Create">Create New</a>
         @*<a asp-action="Create">Create New</a>*@
     </p>
     <br />
@@ -20,18 +20,18 @@
         <thead>
             <tr>
                 <th>Nome</th>
-                <th>Número</th>
+                <th>Descrição</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="x in employees|filter:search">
+            <tr ng-repeat="x in assets|filter:search">
                 <td>{{x.name}}</td>
-                <td>{{ x.employeeNumber }}</td>
+                <td>{{ x.description }}</td>
                 <td>
-                    <a class="btn btn-default btn-sm" href="./Employee/Edit/{{x.id}}"><i class="fa fa-pencil-square-o"></i>Edit</a> |
-                    <a class="btn btn-default btn-sm" href="./Employee/Details/{{x.id}}">Details</a> |
-                    <a class="btn btn-default btn-sm" href="./Employee/Delete/{{x.id}}">Delete</a>
+                    <a class="btn btn-default btn-sm" href="./Asset/Edit/{{x.id}}"><i class="fa fa-pencil-square-o"></i>Edit</a> |
+                    <a class="btn btn-default btn-sm" href="./Asset/Details/{{x.id}}">Details</a> |
+                    <a class="btn btn-default btn-sm" href="./Asset/Delete/{{x.id}}">Delete</a>
                 </td>
             </tr>
         </tbody>
@@ -39,16 +39,16 @@
 </div>
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script type="text/javascript">
-    var app = angular.module('employeeTable', [])
-    app.controller('employeeList', function ($scope, $http) {
+    var app = angular.module('assetTable', [])
+    app.controller('assetList', function ($scope, $http) {
         $http({
             method: "GET",
-            url: "@Url.Action("GetAllEmployeesInDB", "Employee")"
+            url: "@Url.Action("GetAllAssetsInDB", "Asset")"
         }).then(function mySuccess(response) {
-            $scope.employees = response.data;
+            $scope.assets = response.data;
             //debugger;
         }, function myError(response) {
-            $scope.employees = response.statusText;
+            $scope.assets = response.statusText;
         });
     });
 </script>

@@ -40,6 +40,7 @@ namespace AssetManagementApp
 
             //Add by Fernando Dinis
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IAssetRepository, AssetRepository>();
             //
             services.AddDbContext<AssetManagementDEVContext>(); //best way -----or this after this one 
             //services.AddSingleton<AssetManagementDEVContext>();
