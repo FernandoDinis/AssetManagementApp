@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssetManagementApp", "AssetManagementApp\AssetManagementApp.csproj", "{33E9966E-3E0D-4B7C-BEF8-DA60EDFBFA5B}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BD69CF81-A128-4060-AAB6-CAC1590D8C21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{33E9966E-3E0D-4B7C-BEF8-DA60EDFBFA5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33E9966E-3E0D-4B7C-BEF8-DA60EDFBFA5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33E9966E-3E0D-4B7C-BEF8-DA60EDFBFA5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD69CF81-A128-4060-AAB6-CAC1590D8C21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD69CF81-A128-4060-AAB6-CAC1590D8C21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD69CF81-A128-4060-AAB6-CAC1590D8C21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD69CF81-A128-4060-AAB6-CAC1590D8C21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

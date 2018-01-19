@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  assetmanagementapp:
+    image: assetmanagementapp
+    build:
+      context: .
+      dockerfile: AssetManagementApp\Dockerfile
